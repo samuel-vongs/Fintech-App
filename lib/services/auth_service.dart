@@ -10,13 +10,14 @@ class AuthService with ChangeNotifier {
   final FlutterSecureStorage _storage = FlutterSecureStorage();
 
   // Sign up with email and password
-  Future<User?> signUp(String email, String password, String name) async {
+  Future<User?> signUp(
+      String email, String password, String name, String userName) async {
     try {
       UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
-      await saveCredentialsToFirestore(email, password, name);
+      await saveCredentialsToFirestore(email, password, name, userName);
       return result.user;
     } catch (e) {
       print("Error signing up: $e");
@@ -38,7 +39,11 @@ class AuthService with ChangeNotifier {
 
   // Save user credentials to Firestore
   Future<void> saveCredentialsToFirestore(
-      String email, String password, String name) async {
+    String email,
+    String password,
+    String name,
+    String text,
+  ) async {
     try {
       User? user = _auth.currentUser;
       if (user != null) {
@@ -46,11 +51,11 @@ class AuthService with ChangeNotifier {
           'email': email,
           'password': password,
           'name': name,
+          'userName': text,
           'phone': 'N/A',
           'address': 'N/A',
-          'dob': 'N/A',
           'bio': 'N/A',
-          'profilePictureUrl': '',
+          'profileImage': '',
         });
       }
     } catch (e) {
@@ -98,11 +103,11 @@ class AuthService with ChangeNotifier {
           return {
             'email': doc['email'],
             'name': doc['name'],
+            'userName': doc['userName'],
             'phone': doc['phone'] ?? 'N/A',
             'address': doc['address'] ?? 'N/A',
-            'dob': doc['dob'] ?? 'N/A',
             'bio': doc['bio'] ?? 'N/A',
-            'profilePictureUrl': doc['profilePictureUrl'] ?? '',
+            'profileImage': doc['profileImage'] ?? '',
           };
         } else {
           print("No such document!");
@@ -156,7 +161,7 @@ class AuthService with ChangeNotifier {
       await _auth.sendPasswordResetEmail(email: email);
     } catch (e) {
       print("Error resetting password: $e");
-      throw e;
+      rethrow;
     }
   }
 }

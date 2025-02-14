@@ -1,4 +1,5 @@
 import 'package:fintech_app/screens/user_profile.screen.dart';
+import 'package:fintech_app/services/auth_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -73,6 +74,26 @@ class HomeContent extends StatefulWidget {
 
 class _HomeContentState extends State<HomeContent> {
   bool isBalanceVisible = true; // To toggle balance visibility
+  Map<String, String>? userData;
+  String? profileImageUrl;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchUserData();
+  }
+
+  Future<void> fetchUserData() async {
+    final authService = Provider.of<AuthService>(context, listen: false);
+    final userDetails = await authService.fetchCredentialsFromFirestore();
+    if (userDetails != null) {
+      setState(() {
+        userData = userDetails;
+        profileImageUrl =
+            userDetails['profileImage']; // Fetching the profile image URL
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -84,46 +105,62 @@ class _HomeContentState extends State<HomeContent> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Row(
-              children: [
-                CircleAvatar(
-                  backgroundImage: AssetImage('assets/profile.png'),
-                  radius: 20,
-                ),
-                SizedBox(
-                  width: 7,
-                ),
-                Text(
-                  'Hello, Sammy',
-                  style: GoogleFonts.roboto().copyWith(
-                      fontSize: 14,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff001c39)),
-                ),
-                SizedBox(
-                  width: 80,
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/notifications');
-                  },
-                  icon: Icon(
-                    Icons.notifications,
-                    color: Colors.grey,
-                    size: 24,
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: [
+                  CircleAvatar(
+                    radius: 20,
+                    backgroundImage: profileImageUrl != null
+                        ? NetworkImage(
+                            profileImageUrl!) // Displaying the fetched profile image
+                        : AssetImage('assets/profile.png') as ImageProvider,
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/settings');
-                  },
-                  icon: Icon(
-                    Icons.settings,
-                    color: Colors.grey,
-                    size: 24,
+                  SizedBox(
+                    width: 7,
                   ),
-                ),
-              ],
+                  Text(
+                    'Hello,',
+                    style: GoogleFonts.roboto().copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff001c39)),
+                  ),
+                  SizedBox(
+                    width: 5,
+                  ),
+                  Text(
+                    userData?['userName'] ?? 'Loading...',
+                    style: GoogleFonts.roboto().copyWith(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xff001c39)),
+                  ),
+                  SizedBox(
+                    width: 80,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/notifications');
+                    },
+                    icon: Icon(
+                      Icons.notifications,
+                      color: Colors.grey,
+                      size: 24,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/settings');
+                    },
+                    icon: Icon(
+                      Icons.settings,
+                      color: Colors.grey,
+                      size: 24,
+                    ),
+                  ),
+                ],
+              ),
             ),
             // 001c39
             // Wallet Balance

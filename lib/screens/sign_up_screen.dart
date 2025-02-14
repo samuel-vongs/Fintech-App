@@ -16,6 +16,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _usernameController =
+      TextEditingController(); // New controller
   bool _obscureText = true;
   final _formKey = GlobalKey<FormState>();
 
@@ -107,6 +109,49 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         ),
                         SizedBox(height: 16),
                         TextFormField(
+                          controller: _usernameController, // Username field
+                          decoration: InputDecoration(
+                            filled: true,
+                            fillColor: Colors.grey.shade100,
+                            labelText: 'Username',
+                            labelStyle: GoogleFonts.roboto()
+                                .copyWith(color: Color(0xff001c39)),
+                            border: OutlineInputBorder(
+                              borderSide: BorderSide.none,
+                              borderRadius: BorderRadius.circular(16.0),
+                            ),
+                            prefixIcon: Icon(
+                              Icons.account_circle,
+                              color: Colors.grey,
+                            ),
+                          ),
+                          style: GoogleFonts.roboto(),
+                          validator: (value) {
+                            // Check if the username is valid
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your username';
+                            }
+                            if (!RegExp(r'^[A-Za-z]{4,6}$').hasMatch(value)) {
+                              return '4-6 letters. No (0-9) or special characters';
+                            } // Ensure the first letter is uppercase and the rest are lowercase
+                            String formattedValue = value[0].toUpperCase() +
+                                value.substring(1).toLowerCase();
+                            _usernameController.text =
+                                formattedValue; // Update the controller with the formatted value
+                            return null;
+                          },
+                        ),
+                        SizedBox(height: 8),
+                        // Instruction below the username field
+                        Text(
+                          'Username should be 4-6 alphabetic characters',
+                          style: GoogleFonts.roboto().copyWith(
+                              fontSize: 10,
+                              color: Colors.grey,
+                              fontStyle: FontStyle.italic),
+                        ),
+                        SizedBox(height: 16),
+                        TextFormField(
                           controller: _emailController,
                           decoration: InputDecoration(
                             filled: true,
@@ -182,53 +227,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             );
                           },
                         ),
-                        SizedBox(height: 16),
-                        StatefulBuilder(
-                          builder: (context, setState) {
-                            return TextFormField(
-                              controller: TextEditingController(),
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.grey.shade100,
-                                labelText: 'Confirm Password',
-                                labelStyle: GoogleFonts.roboto()
-                                    .copyWith(color: Color(0xff001c39)),
-                                border: OutlineInputBorder(
-                                  borderSide: BorderSide.none,
-                                  borderRadius: BorderRadius.circular(16.0),
-                                ),
-                                prefixIcon: Icon(
-                                  Icons.lock,
-                                  color: Colors.grey,
-                                ),
-                                suffixIcon: IconButton(
-                                  icon: Icon(
-                                    _obscureText
-                                        ? Icons.visibility_off
-                                        : Icons.visibility,
-                                    color: Colors.grey,
-                                  ),
-                                  onPressed: () {
-                                    setState(() {
-                                      _obscureText = !_obscureText;
-                                    });
-                                  },
-                                ),
-                              ),
-                              style: GoogleFonts.roboto(),
-                              obscureText: _obscureText,
-                              validator: (value) {
-                                if (value == null || value.isEmpty) {
-                                  return 'Please confirm your password';
-                                }
-                                if (value != _passwordController.text) {
-                                  return 'Passwords do not match';
-                                }
-                                return null;
-                              },
-                            );
-                          },
-                        ),
                       ],
                     ),
                   ),
@@ -255,6 +253,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           _emailController.text,
                           _passwordController.text,
                           _nameController.text,
+                          _usernameController.text, // Pass username
                         );
                         Navigator.pop(context); // Close the loading dialog
                         if (user != null && mounted) {
@@ -262,6 +261,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             _emailController.text,
                             _passwordController.text,
                             _nameController.text,
+                            _usernameController.text,
                           );
                           Navigator.pushReplacementNamed(context, '/home');
                         }

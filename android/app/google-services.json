@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "253840577535",
-    "project_id": "fintech-app-66e71",
-    "storage_bucket": "fintech-app-66e71.firebasestorage.app"
+    "project_number": "911750043532",
+    "project_id": "online-marketing-app-a716a",
+    "storage_bucket": "online-marketing-app-a716a.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:253840577535:android:4a3c4f24ba920aadaa0dca",
+        "mobilesdk_app_id": "1:911750043532:android:9a1694c1748b3f50d2a8a9",
         "android_client_info": {
           "package_name": "com.example.fintech_app"
         }
@@ -15,7 +15,26 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDbuevz6jSKxs159neFkFQAP31a71D9MYE"
+          "current_key": "AIzaSyBbiHeJw9My1V64g6aYBg_O19oIBZWyTcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911750043532:android:8bf968ff5b780e7cd2a8a9",
+        "android_client_info": {
+          "package_name": "com.example.online_marketing"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbiHeJw9My1V64g6aYBg_O19oIBZWyTcY"
         }
       ],
       "services": {

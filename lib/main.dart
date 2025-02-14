@@ -8,7 +8,9 @@ import 'package:fintech_app/screens/receive_money_screen.dart';
 import 'package:fintech_app/screens/save_money_screen.dart';
 import 'package:fintech_app/screens/settings_screen.dart';
 import 'package:fintech_app/screens/sign_up_screen.dart';
+import 'package:fintech_app/spirit-nerds/spirit_nerds.dart';
 import 'package:fintech_app/screens/splash_screen.dart';
+import 'package:fintech_app/screens/user_profile.screen.dart';
 import 'package:fintech_app/services/auth_service.dart';
 import 'package:fintech_app/services/payment_services.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -54,17 +56,19 @@ class MyApp extends StatelessWidget {
           },
         ),
       ),
-      initialRoute: '/splash',
+      initialRoute: '/spirit-nerd',
       routes: {
         '/splash': (context) => SplashScreen(),
         '/welcome': (context) => WelcomePage(),
         '/login': (context) => LoginScreen(),
         '/signup': (context) => SignUpScreen(),
         '/home': (context) => HomeScreen(),
+        '/spirit-nerd': (context) => SpiritNerdsScreen(),
         '/deposit': (context) => DepositScreen(),
         '/receive': (context) => ReceiveMoneyScreen(),
         '/save': (context) => SaveMoneyScreen(),
         '/airtime': (context) => AirtimeDataScreen(),
+        '/user-profile': (context) => UserProfileScreen(),
         '/forgot-password': (context) => ForgotPasswordScreen(),
         '/settings': (context) => SettingsScreen(),
         '/notifications': (context) => NotificationScreen(),

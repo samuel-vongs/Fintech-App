@@ -13,6 +13,7 @@ class UserProfileScreen extends StatefulWidget {
 
 class _UserProfileScreenState extends State<UserProfileScreen> {
   Map<String, String>? userData;
+  String? profileImageUrl;
 
   @override
   void initState() {
@@ -26,6 +27,8 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
     if (userDetails != null) {
       setState(() {
         userData = userDetails;
+        profileImageUrl =
+            userDetails['profileImage']; // Fetching the profile image URL
       });
     }
   }
@@ -55,13 +58,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                 Center(
                   child: CircleAvatar(
                     radius: 70,
-                    backgroundImage: AssetImage('assets/profile.png'),
+                    backgroundImage: profileImageUrl != null
+                        ? NetworkImage(
+                            profileImageUrl!) // Displaying the fetched profile image
+                        : AssetImage('assets/profile.png') as ImageProvider,
                   ),
                 ),
                 const SizedBox(height: 20),
                 Center(
                   child: Text(
-                    userData?['name'] ?? 'Loading...',
+                    userData?['userName'] ?? 'Loading...',
                     style: GoogleFonts.roboto(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
@@ -70,13 +76,13 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                   ),
                 ),
                 const SizedBox(height: 10),
+                buildCard(
+                    Icons.person, 'Name: ${userData?['name'] ?? 'Loading...'}'),
                 buildCard(Icons.email,
                     'Email: ${userData?['email'] ?? 'Loading...'}'),
                 buildCard(Icons.phone, 'Phone: ${userData?['phone'] ?? 'N/A'}'),
                 buildCard(
                     Icons.home, 'Address: ${userData?['address'] ?? 'N/A'}'),
-                buildCard(
-                    Icons.cake, 'Date of Birth: ${userData?['dob'] ?? 'N/A'}'),
                 buildCard(Icons.info, 'Bio:',
                     subtitle: userData?['bio'] ?? 'N/A'),
                 const SizedBox(height: 20),
@@ -86,13 +92,16 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: const Color(0xff001c39),
                     ),
-                    child: Text('Edit Profile', style: GoogleFonts.roboto()),
+                    child: Text('Edit Profile',
+                        style:
+                            GoogleFonts.roboto().copyWith(color: Colors.white)),
                   ),
                 ),
                 const SizedBox(height: 20),
-                buildCard(Icons.logout, 'Logout', onTap: _logout),
+                buildCard(Icons.logout, 'Logout',
+                    onTap: _logout, iconColor: Colors.red),
                 buildCard(Icons.delete, 'Delete Account',
-                    onTap: _deleteAccount),
+                    onTap: _deleteAccount, iconColor: Colors.red),
               ],
             ),
           ),
@@ -102,17 +111,21 @@ class _UserProfileScreenState extends State<UserProfileScreen> {
   }
 
   Card buildCard(IconData icon, String title,
-      {String? subtitle, GestureTapCallback? onTap}) {
+      {String? subtitle,
+      GestureTapCallback? onTap,
+      Color iconColor = Colors.orange}) {
     return Card(
       elevation: 4,
       margin: const EdgeInsets.symmetric(vertical: 10),
       child: ListTile(
-        leading: Icon(icon, color: Colors.orange),
-        title: Text(title,
-            style: GoogleFonts.roboto().copyWith(
-              color: Color(0xff001c39),
-              fontSize: 14,
-            )),
+        leading: Icon(icon, color: iconColor),
+        title: Text(
+          title,
+          style: GoogleFonts.roboto().copyWith(
+            color: const Color(0xff001c39),
+            fontSize: 14,
+          ),
+        ),
         subtitle: subtitle != null
             ? Text(subtitle, style: GoogleFonts.roboto())
             : null,
