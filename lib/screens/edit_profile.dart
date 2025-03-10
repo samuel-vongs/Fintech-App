@@ -199,7 +199,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               size: 30,
             ),
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/user-profile');
+              Navigator.pushReplacementNamed(context, '/home');
             },
           ),
         ),

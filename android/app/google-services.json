@@ -7,6 +7,25 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:911750043532:android:2f032c131b103036d2a8a9",
+        "android_client_info": {
+          "package_name": "com.example.chat_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbiHeJw9My1V64g6aYBg_O19oIBZWyTcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:911750043532:android:9a1694c1748b3f50d2a8a9",
         "android_client_info": {
           "package_name": "com.example.fintech_app"
@@ -29,6 +48,25 @@
         "mobilesdk_app_id": "1:911750043532:android:8bf968ff5b780e7cd2a8a9",
         "android_client_info": {
           "package_name": "com.example.online_marketing"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBbiHeJw9My1V64g6aYBg_O19oIBZWyTcY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:911750043532:android:c9a2a3bbcf1623ddd2a8a9",
+        "android_client_info": {
+          "package_name": "com.example.ruach_connect"
         }
       },
       "oauth_client": [],
